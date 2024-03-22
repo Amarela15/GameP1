@@ -8,11 +8,48 @@ secret_word = random.choice(words)
 max_fails = 5
 # Lista para almacenar las letras adivinadas
 guessed_letters = []
-
+word_displayed = []
+ok = True
 print("¡Bienvenido al juego de adivinanzas!")
-print("Estoy pensando en una palabra. ¿Puedes adivinar cuál es?")
-
-word_displayed = "_" * len(secret_word)
+# Me aseguro de que se escoja la dificultad adecuadamente
+print("Primero que nada, escoge una dificultad: ")
+while ok:
+    dificultad = input("""
+1: Fácil
+2: Medio
+3: Díficil
+""")
+    if (dificultad != "1" and dificultad != "2" and dificultad != "3"):
+        print("Intente de nuevo, debe escoger un numero del 1 al 3")
+        continue
+    else:
+        ok = False
+# Configuro la Dificultad Fácil
+palabra = []
+if dificultad == "1":
+    for letra in secret_word:
+        if letra in "aáeéiíoóuú":
+            palabra.append(letra)
+            guessed_letters.append(letra) 
+        else:
+            palabra.append("_")
+    word_displayed = "".join(palabra)
+# Configuro la dificultad Media
+elif dificultad == "2":
+    guiones = "_" * (len(secret_word)- 2)
+    palabra.append(secret_word[0])
+    palabra.append(guiones)
+    palabra.append(secret_word[-1])
+    word_displayed = "".join(palabra)
+    if secret_word.count(secret_word[0]) == 1:
+        guessed_letters.append(secret_word[0])
+    if secret_word.count(secret_word[-1]) == 1:
+        guessed_letters.append(secret_word[-1])
+#Configuro la dificultad Difícil   
+else:
+    word_displayed = "_" * len(secret_word)
+    
+print("Bien, comencemos. Estoy pensando en una palabra. ¿Puedes adivinar cuál es?")
 # Mostrarla palabra parcialmente adivinada
 print(f"Palabra: {word_displayed}")
 fails = 0
@@ -47,6 +84,11 @@ while(fails < max_fails):
              letters.append(letter)
          else:
              letters.append("_")
+     if dificultad == "2":
+         if secret_word[0] not in guessed_letters:
+             letters[0] = secret_word[0]
+         if secret_word[-1] not in guessed_letters:
+             letters[-1] = secret_word[-1]
      word_displayed = "".join(letters)
      print(f"Palabra: {word_displayed}")
      # Verificar si se ha adivinado la palabra completa
