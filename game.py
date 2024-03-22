@@ -20,6 +20,14 @@ print(f"Palabra: {word_displayed}")
 for i in range(max_attempts):
      # Pedir al jugador que ingrese una letra
      letter = input("Ingresa una letra: ").lower()
+     # Verificar si se ha ingresado un String vacío o un caracter no válido
+     if not letter.isalpha():
+         print("No has ingresado una letra. Intenta de nuevo.")
+         continue
+     # Verficar si se ha ingresado un solo carácter
+     if len(letter) > 1:
+         print("Ingresaste más de una letra. Intenta de nuevo.")
+         continue
      # Verificar si la letra ya ha sido adivinada
      if letter in guessed_letters:
          print("Ya has intentado con esa letra. Intenta con otra.")
